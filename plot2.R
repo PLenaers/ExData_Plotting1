@@ -1,0 +1,18 @@
+data = read.csv("household_power_consumption.txt", sep=";", stringsAsFactors=FALSE)
+data$Date <- as.Date(data$Date,"%d/%m/%Y")
+mydata <- subset(data, Date == "2007-02-01" | Date == "2007-02-02")
+rm(data)
+
+mydata$Time <- strptime(mydata$Time,"%H:%M:%S")
+mydata$Global_active_power <- as.numeric(mydata$Global_active_power)
+mydata$Global_reactive_power <- as.numeric(mydata$Global_reactive_power)
+mydata$Voltage <- as.numeric(mydata$Voltage)
+mydata$Global_intensity <- as.numeric(mydata$Global_intensity)
+mydata$Sub_metering_1 <- as.numeric(mydata$Sub_metering_1)
+mydata$Sub_metering_2 <- as.numeric(mydata$Sub_metering_2)
+mydata$Sub_metering_3 <- as.numeric(mydata$Sub_metering_3)
+
+png(file="plot2.png", width = 480, height = 480)
+plot(mydata$Global_active_power, type="l", xlab="", ylab="Global Activity Power (kilowatts)", xaxt="n")
+axis(1, at=c(0,1440,2880), labels=c("Thu","Fri","Sat"))
+dev.off()
